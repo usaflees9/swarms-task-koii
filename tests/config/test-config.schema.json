@@ -1,0 +1,119 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Cross-Component Test Configuration Schema",
+    "description": "Configuration schema for standardized test validation across distributed system components",
+    "type": "object",
+    "properties": {
+        "testSuite": {
+            "type": "object",
+            "description": "Defines the overall test suite configuration",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name of the test suite"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of the test suite's purpose"
+                },
+                "version": {
+                    "type": "string",
+                    "description": "Version of the test configuration"
+                }
+            },
+            "required": ["name"]
+        },
+        "testTypes": {
+            "type": "array",
+            "description": "Types of tests to be executed",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "unit", 
+                    "integration", 
+                    "e2e", 
+                    "performance", 
+                    "security", 
+                    "regression"
+                ]
+            }
+        },
+        "testEnvironments": {
+            "type": "object",
+            "description": "Configuration for different test environments",
+            "properties": {
+                "development": {
+                    "type": "object",
+                    "description": "Development environment configuration"
+                },
+                "staging": {
+                    "type": "object",
+                    "description": "Staging environment configuration"
+                },
+                "production": {
+                    "type": "object",
+                    "description": "Production environment configuration"
+                }
+            }
+        },
+        "testCoverage": {
+            "type": "object",
+            "description": "Test coverage requirements",
+            "properties": {
+                "minCoveragePercent": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "description": "Minimum required test coverage percentage"
+                },
+                "excludePaths": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Paths to exclude from coverage calculations"
+                }
+            }
+        },
+        "testRunners": {
+            "type": "array",
+            "description": "Test runners and their configurations",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "enum": ["jest", "pytest", "vitest", "mocha"]
+                    },
+                    "configuration": {
+                        "type": "object",
+                        "description": "Runner-specific configuration"
+                    }
+                },
+                "required": ["name"]
+            }
+        },
+        "dependencies": {
+            "type": "object",
+            "description": "Test dependencies and mock configurations",
+            "properties": {
+                "mockServices": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {"type": "string"},
+                            "type": {"type": "string"}
+                        }
+                    }
+                },
+                "requiredServices": {
+                    "type": "array",
+                    "items": {"type": "string"}
+                }
+            }
+        }
+    },
+    "required": ["testSuite", "testTypes"],
+    "additionalProperties": false
+}
